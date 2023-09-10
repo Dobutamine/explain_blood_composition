@@ -1,5 +1,5 @@
 // brent constants
-static double brent_accuracy = 1e-6;
+static double brent_accuracy = 1e-8;
 static double max_iterations = 100;
 static double gas_constant = 62.36367;
 
@@ -28,6 +28,7 @@ static double ph = 0.0;
 static double be = 0.0;
 static double po2 = 0.0;
 static double so2 = 0.0;
+static double steps = 0.0;
 
 // Function type definition for functions that take a double and return a double
 typedef double (*DoubleFunction)(double);
@@ -42,6 +43,8 @@ typedef struct  {
     double hco3;
     double be;
     double sid_app;
+    double steps_ab;
+    double steps_o2;
 } bloodResult;
 
 bloodResult GetBloodComposition(

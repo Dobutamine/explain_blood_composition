@@ -602,6 +602,8 @@ static void _cffi_checkfld_typedef_bloodResult(bloodResult *p)
   { double *tmp = &p->hco3; (void)tmp; }
   { double *tmp = &p->be; (void)tmp; }
   { double *tmp = &p->sid_app; (void)tmp; }
+  { double *tmp = &p->steps_ab; (void)tmp; }
+  { double *tmp = &p->steps_o2; (void)tmp; }
 }
 struct _cffi_align_typedef_bloodResult { char x; bloodResult y; };
 
@@ -722,11 +724,17 @@ static const struct _cffi_field_s _cffi_fields[] = {
   { "sid_app", offsetof(bloodResult, sid_app),
                sizeof(((bloodResult *)0)->sid_app),
                _CFFI_OP(_CFFI_OP_NOOP, 1) },
+  { "steps_ab", offsetof(bloodResult, steps_ab),
+                sizeof(((bloodResult *)0)->steps_ab),
+                _CFFI_OP(_CFFI_OP_NOOP, 1) },
+  { "steps_o2", offsetof(bloodResult, steps_o2),
+                sizeof(((bloodResult *)0)->steps_o2),
+                _CFFI_OP(_CFFI_OP_NOOP, 1) },
 };
 
 static const struct _cffi_struct_union_s _cffi_struct_unions[] = {
   { "$bloodResult", 11, _CFFI_F_CHECK_FIELDS,
-    sizeof(bloodResult), offsetof(struct _cffi_align_typedef_bloodResult, y), 0, 9 },
+    sizeof(bloodResult), offsetof(struct _cffi_align_typedef_bloodResult, y), 0, 11 },
 };
 
 static const struct _cffi_typename_s _cffi_typenames[] = {

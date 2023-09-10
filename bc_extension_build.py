@@ -12,6 +12,8 @@ ffibuilder.cdef("""
                     double hco3;
                     double be;
                     double sid_app;
+                    double steps_ab;
+                    double steps_o2;
                 } bloodResult;
 
                 bloodResult GetBloodComposition(

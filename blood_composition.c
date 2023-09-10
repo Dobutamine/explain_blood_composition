@@ -24,6 +24,9 @@ double BrentRootFinding(DoubleFunction f, double x0, double x1, int maxIter, dou
 
     double x2 = x0;
     double fx2 = fx0;
+    double d = 0;
+    double fnew = 0;
+
     bool mflag = true;
     int stepsTaken = 0;
 
@@ -32,7 +35,6 @@ double BrentRootFinding(DoubleFunction f, double x0, double x1, int maxIter, dou
             swap(&x0, &x1);
             swap(&fx0, &fx1);
         }
-
         fx0 = f(x0);
         fx1 = f(x1);
         fx2 = f(x2);
@@ -48,8 +50,20 @@ double BrentRootFinding(DoubleFunction f, double x0, double x1, int maxIter, dou
             newPoint = x1 - (fx1 * (x1 - x0) / (fx1 - fx0));
         }
 
-        double fnew = f(newPoint);
-        double d = x2;
+        if (newPoint < (3 * x0 + x1) / 4 || newPoint > x1 ||
+            (mflag && fabs(newPoint - x1) >= fabs(x1 - x2) / 2) ||
+            (!mflag && fabs(newPoint - x1) >= fabs(x2 - d) / 2) ||
+            (mflag && fabs(x1 - x2) < tolerance) ||
+            (!mflag && fabs(x2 - d) < tolerance)) {
+            newPoint = (x0 + x1) / 2;
+            mflag = true;
+        }
+        else {
+            mflag = false;
+        }
+
+        fnew = f(newPoint);
+        d = x2;
         x2 = x1;
 
         if ((fx0 * fnew) < 0) {
@@ -65,22 +79,10 @@ double BrentRootFinding(DoubleFunction f, double x0, double x1, int maxIter, dou
             return newPoint;
         }
 
-        if (newPoint < (3 * x0 + x1) / 4 || newPoint > x1 ||
-            (mflag && fabs(newPoint - x1) >= fabs(x1 - x2) / 2) ||
-            (!mflag && fabs(newPoint - x1) >= fabs(x2 - d) / 2) ||
-            (mflag && fabs(x1 - x2) < tolerance) ||
-            (!mflag && fabs(x2 - d) < tolerance)) {
-            newPoint = (x0 + x1) / 2;
-            mflag = true;
-        }
-        else {
-            mflag = false;
-        }
     }
 
     return -1; // Failed to find a root within the maximum number of iterations
 }
-
 
 bloodResult GetBloodComposition(
                     double _to2,
@@ -118,6 +120,7 @@ bloodResult GetBloodComposition(
         result.pco2 = pco2;
         result.hco3 = hco3;
         result.be = be;
+        result.steps_ab = steps;
     } else {
         // as the acidbase is not valid try to calculate the po2 and so2 assuming normal acidbase values
         result.valid_ab = 0;
@@ -136,6 +139,7 @@ bloodResult GetBloodComposition(
     // calculate the po2 from the to2 using a brent root finding function and oxygen dissociation curve
     po2 = BrentRootFinding(OxygenContent, left_o2, right_o2, max_iterations, brent_accuracy);
 
+    result.steps_o2 = steps;
     if (po2 > 0) {
         result.valid_o2 = 1;
         result.po2 = po2;
