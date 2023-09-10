@@ -1,5 +1,5 @@
 // brent constants
-static double brent_accuracy = 1e-8;
+static double brent_accuracy = 1e-6;
 static double max_iterations = 100;
 static double gas_constant = 62.36367;
 

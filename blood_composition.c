@@ -33,8 +33,8 @@ double BrentRootFinding(DoubleFunction f, double x0, double x1, int maxIter, dou
     while (stepsTaken < maxIter) {
         if (fabs(fx0) < fabs(fx1)) {
             swap(&x0, &x1);
-            swap(&fx0, &fx1);
         }
+        
         fx0 = f(x0);
         fx1 = f(x1);
         fx2 = f(x2);
